@@ -1,4 +1,4 @@
-# SplitBill API 💸
+# SplitBill API 💸 - Em desenvolvimento
 
 SplitBill API é uma API REST para gerenciamento de despesas compartilhadas em grupo com cálculo automático de saldo entre participantes.
 
