@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.com.splitbill.group.exception.GroupNotFoundException;
+import br.com.splitbill.group.exception.NotGroupMemberException;
 import br.com.splitbill.user.exception.DuplicateEmailException;
 import br.com.splitbill.user.exception.UserNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -72,6 +74,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<StandardError> handleDuplicateEmail(DuplicateEmailException e, HttpServletRequest request) {
         log.warn("Duplicate email: {}", e.getMessage());
         return buildErrorResponse(HttpStatus.CONFLICT, "Conflict", e.getMessage(), request);
+    }
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<StandardError> handleGroupNotFound(GroupNotFoundException e, HttpServletRequest request) {
+        log.warn("Group not found: {}", e.getMessage());
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Not Found", e.getMessage(), request);
+    }
+
+    @ExceptionHandler(NotGroupMemberException.class)
+    public ResponseEntity<StandardError> handleNotGroupMember(NotGroupMemberException e, HttpServletRequest request) {
+        log.warn("Not a group member: {}", e.getMessage());
+        return buildErrorResponse(HttpStatus.FORBIDDEN, "Forbidden", e.getMessage(), request);
     }
 
     @ExceptionHandler(Exception.class)
